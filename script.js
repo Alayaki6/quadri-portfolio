@@ -1,34 +1,39 @@
-// ================================
+// =========================================
 // PORTFOLIO JAVASCRIPT
-// ================================
+// =========================================
 
 
-// ================================
+// =========================================
 // SCROLL REVEAL
-// ================================
+// =========================================
 
-const revealElements = document.querySelectorAll(".reveal");
+const revealElements =
+  document.querySelectorAll(".reveal");
 
-const revealObserver = new IntersectionObserver(
-  (entries) => {
 
-    entries.forEach((entry) => {
+const revealObserver =
+  new IntersectionObserver(
+    (entries) => {
 
-      if (entry.isIntersecting) {
+      entries.forEach((entry) => {
 
-        entry.target.classList.add("active");
+        if (entry.isIntersecting) {
 
-        revealObserver.unobserve(entry.target);
+          entry.target.classList.add("active");
 
-      }
+          revealObserver.unobserve(
+            entry.target
+          );
 
-    });
+        }
 
-  },
-  {
-    threshold: 0.15
-  }
-);
+      });
+
+    },
+    {
+      threshold: 0.12
+    }
+  );
 
 
 revealElements.forEach((element) => {
@@ -38,40 +43,52 @@ revealElements.forEach((element) => {
 });
 
 
-// ================================
+// =========================================
 // NAVBAR SCROLL EFFECT
-// ================================
+// =========================================
 
-const navbar = document.querySelector(".navbar");
+const navbar =
+  document.querySelector(".navbar");
 
-window.addEventListener("scroll", () => {
 
-  if (window.scrollY > 50) {
+window.addEventListener(
+  "scroll",
+  () => {
 
-    navbar.style.background =
-      "rgba(7, 7, 10, 0.92)";
+    if (!navbar) return;
 
-    navbar.style.boxShadow =
-      "0 10px 30px rgba(0, 0, 0, 0.2)";
 
-  } else {
+    if (window.scrollY > 50) {
 
-    navbar.style.background =
-      "rgba(7, 7, 10, 0.7)";
+      navbar.style.background =
+        "rgba(7, 7, 10, 0.94)";
 
-    navbar.style.boxShadow = "none";
+      navbar.style.boxShadow =
+        "0 10px 30px rgba(0, 0, 0, 0.25)";
+
+    } else {
+
+      navbar.style.background =
+        "rgba(7, 7, 10, 0.72)";
+
+      navbar.style.boxShadow =
+        "none";
+
+    }
 
   }
+);
 
-});
 
-
-// ================================
+// =========================================
 // TYPING EFFECT
-// ================================
+// =========================================
 
 const typingElement =
-  document.querySelector(".typing-text");
+  document.querySelector(
+    ".typing-text"
+  );
+
 
 const phrases = [
   "digital experiences.",
@@ -80,15 +97,22 @@ const phrases = [
   "modern solutions."
 ];
 
+
 let phraseIndex = 0;
+
 let characterIndex = 0;
+
 let deleting = false;
 
 
 function typeEffect() {
 
+  if (!typingElement) return;
+
+
   const currentPhrase =
     phrases[phraseIndex];
+
 
   if (!deleting) {
 
@@ -100,6 +124,7 @@ function typeEffect() {
 
     characterIndex++;
 
+
     if (
       characterIndex ===
       currentPhrase.length
@@ -109,7 +134,7 @@ function typeEffect() {
 
       setTimeout(
         typeEffect,
-        1800
+        1700
       );
 
       return;
@@ -126,6 +151,7 @@ function typeEffect() {
 
     characterIndex--;
 
+
     if (characterIndex === 0) {
 
       deleting = false;
@@ -138,8 +164,10 @@ function typeEffect() {
 
   }
 
+
   const speed =
     deleting ? 45 : 80;
+
 
   setTimeout(
     typeEffect,
@@ -153,15 +181,15 @@ if (typingElement) {
 
   setTimeout(
     typeEffect,
-    1200
+    900
   );
 
 }
 
 
-// ================================
-// PROJECT CARD TILT
-// ================================
+// =========================================
+// PROJECT 3D TILT
+// =========================================
 
 const projectScreen =
   document.querySelector(
@@ -181,11 +209,13 @@ if (
       const rect =
         projectScreen.getBoundingClientRect();
 
+
       const x =
         event.clientX - rect.left;
 
       const y =
         event.clientY - rect.top;
+
 
       const centerX =
         rect.width / 2;
@@ -193,11 +223,14 @@ if (
       const centerY =
         rect.height / 2;
 
+
       const rotateX =
         ((y - centerY) / centerY) * -4;
 
+
       const rotateY =
         ((x - centerX) / centerX) * 5;
+
 
       projectScreen.style.transform =
         `rotateX(${rotateX}deg)
@@ -221,14 +254,15 @@ if (
 }
 
 
-// ================================
+// =========================================
 // ACTIVE NAVIGATION
-// ================================
+// =========================================
 
 const sections =
   document.querySelectorAll(
     "section[id]"
   );
+
 
 const navLinks =
   document.querySelectorAll(
@@ -242,14 +276,17 @@ window.addEventListener(
 
     let currentSection = "";
 
+
     sections.forEach(
       (section) => {
 
         const sectionTop =
-          section.offsetTop - 150;
+          section.offsetTop - 160;
+
 
         const sectionHeight =
           section.offsetHeight;
+
 
         if (
           window.scrollY >= sectionTop &&
@@ -271,6 +308,7 @@ window.addEventListener(
 
         link.style.color = "";
 
+
         if (
           link.getAttribute("href") ===
           `#${currentSection}`
@@ -288,9 +326,9 @@ window.addEventListener(
 );
 
 
-// ================================
-// SMOOTH BUTTON FEEDBACK
-// ================================
+// =========================================
+// BUTTON PRESS EFFECT
+// =========================================
 
 const buttons =
   document.querySelectorAll(
@@ -307,6 +345,7 @@ buttons.forEach(
 
         button.style.transform =
           "scale(0.97)";
+
 
         setTimeout(
           () => {
@@ -325,12 +364,13 @@ buttons.forEach(
 );
 
 
-// ================================
-// YEAR
-// ================================
+// =========================================
+// FOOTER YEAR
+// =========================================
 
 const footer =
   document.querySelector("footer p");
+
 
 if (footer) {
 
