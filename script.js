@@ -1,19 +1,70 @@
 // =========================================
-// PORTFOLIO JAVASCRIPT
+// MOBILE NAVIGATION
 // =========================================
+
+const menuToggle = document.querySelector(".menu-toggle");
+const navLinks = document.querySelector(".nav-links");
+
+if (menuToggle && navLinks) {
+  menuToggle.addEventListener("click", () => {
+    const isOpen = navLinks.classList.toggle("active");
+
+    menuToggle.classList.toggle("active", isOpen);
+
+    menuToggle.setAttribute(
+      "aria-expanded",
+      String(isOpen)
+    );
+  });
+
+  navLinks.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      navLinks.classList.remove("active");
+
+      menuToggle.classList.remove("active");
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    const clickedInsideMenu =
+      navLinks.contains(event.target);
+
+    const clickedButton =
+      menuToggle.contains(event.target);
+
+    if (
+      !clickedInsideMenu &&
+      !clickedButton &&
+      navLinks.classList.contains("active")
+    ) {
+      navLinks.classList.remove("active");
+
+      menuToggle.classList.remove("active");
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+    }
+  });
+}
 
 
 // =========================================
-// SCROLL REVEAL
+// SCROLL REVEAL ANIMATION
 // =========================================
 
 const revealElements =
   document.querySelectorAll(".reveal");
 
-
 const revealObserver =
   new IntersectionObserver(
-    (entries) => {
+    (entries, observer) => {
 
       entries.forEach((entry) => {
 
@@ -21,9 +72,7 @@ const revealObserver =
 
           entry.target.classList.add("active");
 
-          revealObserver.unobserve(
-            entry.target
-          );
+          observer.unobserve(entry.target);
 
         }
 
@@ -35,11 +84,8 @@ const revealObserver =
     }
   );
 
-
 revealElements.forEach((element) => {
-
   revealObserver.observe(element);
-
 });
 
 
@@ -50,331 +96,20 @@ revealElements.forEach((element) => {
 const navbar =
   document.querySelector(".navbar");
 
+window.addEventListener("scroll", () => {
 
-window.addEventListener(
-  "scroll",
-  () => {
+  if (!navbar) return;
 
-    if (!navbar) return;
+  if (window.scrollY > 40) {
 
-
-    if (window.scrollY > 50) {
-
-      navbar.style.background =
-        "rgba(7, 7, 10, 0.94)";
-
-      navbar.style.boxShadow =
-        "0 10px 30px rgba(0, 0, 0, 0.25)";
-
-    } else {
-
-      navbar.style.background =
-        "rgba(7, 7, 10, 0.72)";
-
-      navbar.style.boxShadow =
-        "none";
-
-    }
-
-  }
-);
-
-
-// =========================================
-// TYPING EFFECT
-// =========================================
-
-const typingElement =
-  document.querySelector(
-    ".typing-text"
-  );
-
-
-const phrases = [
-  "digital experiences.",
-  "web applications.",
-  "useful software.",
-  "modern solutions."
-];
-
-
-let phraseIndex = 0;
-
-let characterIndex = 0;
-
-let deleting = false;
-
-
-function typeEffect() {
-
-  if (!typingElement) return;
-
-
-  const currentPhrase =
-    phrases[phraseIndex];
-
-
-  if (!deleting) {
-
-    typingElement.textContent =
-      currentPhrase.substring(
-        0,
-        characterIndex + 1
-      );
-
-    characterIndex++;
-
-
-    if (
-      characterIndex ===
-      currentPhrase.length
-    ) {
-
-      deleting = true;
-
-      setTimeout(
-        typeEffect,
-        1700
-      );
-
-      return;
-
-    }
+    navbar.style.background =
+      "rgba(7, 7, 10, 0.92)";
 
   } else {
 
-    typingElement.textContent =
-      currentPhrase.substring(
-        0,
-        characterIndex - 1
-      );
-
-    characterIndex--;
-
-
-    if (characterIndex === 0) {
-
-      deleting = false;
-
-      phraseIndex =
-        (phraseIndex + 1) %
-        phrases.length;
-
-    }
+    navbar.style.background =
+      "rgba(7, 7, 10, 0.72)";
 
   }
 
-
-  const speed =
-    deleting ? 45 : 80;
-
-
-  setTimeout(
-    typeEffect,
-    speed
-  );
-
-}
-
-
-if (typingElement) {
-
-  setTimeout(
-    typeEffect,
-    900
-  );
-
-}
-
-
-// =========================================
-// PROJECT 3D TILT
-// =========================================
-
-const projectScreen =
-  document.querySelector(
-    ".project-screen"
-  );
-
-
-if (
-  projectScreen &&
-  window.innerWidth > 700
-) {
-
-  projectScreen.addEventListener(
-    "mousemove",
-    (event) => {
-
-      const rect =
-        projectScreen.getBoundingClientRect();
-
-
-      const x =
-        event.clientX - rect.left;
-
-      const y =
-        event.clientY - rect.top;
-
-
-      const centerX =
-        rect.width / 2;
-
-      const centerY =
-        rect.height / 2;
-
-
-      const rotateX =
-        ((y - centerY) / centerY) * -4;
-
-
-      const rotateY =
-        ((x - centerX) / centerX) * 5;
-
-
-      projectScreen.style.transform =
-        `rotateX(${rotateX}deg)
-         rotateY(${rotateY}deg)
-         translateY(-5px)`;
-
-    }
-  );
-
-
-  projectScreen.addEventListener(
-    "mouseleave",
-    () => {
-
-      projectScreen.style.transform =
-        "rotateY(5deg) rotateX(3deg)";
-
-    }
-  );
-
-}
-
-
-// =========================================
-// ACTIVE NAVIGATION
-// =========================================
-
-const sections =
-  document.querySelectorAll(
-    "section[id]"
-  );
-
-
-const navLinks =
-  document.querySelectorAll(
-    ".nav-links a"
-  );
-
-
-window.addEventListener(
-  "scroll",
-  () => {
-
-    let currentSection = "";
-
-
-    sections.forEach(
-      (section) => {
-
-        const sectionTop =
-          section.offsetTop - 160;
-
-
-        const sectionHeight =
-          section.offsetHeight;
-
-
-        if (
-          window.scrollY >= sectionTop &&
-          window.scrollY <
-            sectionTop + sectionHeight
-        ) {
-
-          currentSection =
-            section.getAttribute("id");
-
-        }
-
-      }
-    );
-
-
-    navLinks.forEach(
-      (link) => {
-
-        link.style.color = "";
-
-
-        if (
-          link.getAttribute("href") ===
-          `#${currentSection}`
-        ) {
-
-          link.style.color =
-            "#a78bfa";
-
-        }
-
-      }
-    );
-
-  }
-);
-
-
-// =========================================
-// BUTTON PRESS EFFECT
-// =========================================
-
-const buttons =
-  document.querySelectorAll(
-    ".btn"
-  );
-
-
-buttons.forEach(
-  (button) => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        button.style.transform =
-          "scale(0.97)";
-
-
-        setTimeout(
-          () => {
-
-            button.style.transform =
-              "";
-
-          },
-          120
-        );
-
-      }
-    );
-
-  }
-);
-
-
-// =========================================
-// FOOTER YEAR
-// =========================================
-
-const footer =
-  document.querySelector("footer p");
-
-
-if (footer) {
-
-  footer.textContent =
-    `© ${new Date().getFullYear()} Quadri Alayaki`;
-
-}
+});
